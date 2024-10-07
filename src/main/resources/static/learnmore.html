@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn More - Innovation Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f0f4f8; /* Soft light background for contrast */
+            font-family: 'Arial', sans-serif;
+        }
+        .hero {
+            background: linear-gradient(rgba(0, 123, 255, 0.8), rgba(0, 123, 255, 0.8)), url('https://via.placeholder.com/1200x400/007bff/ffffff?text=Learn+More') no-repeat center center; /* Blue gradient overlay */
+            background-size: cover;
+            color: #fff;
+            padding: 100px 20px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3.5em;
+            margin: 0;
+        }
+        .content {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #ffffff; /* White background for contrast */
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Shadow for depth */
+            padding: 40px;
+        }
+        .show-more-content {
+            display: none; /* Initially hidden */
+        }
+        .btn-show-more {
+            margin-top: 20px;
+            background-color: #0056b3; /* Darker blue */
+            border: none;
+            color: white;
+        }
+        .btn-show-more:hover {
+            background-color: #004494; /* Even darker blue on hover */
+        }
+        .btn-back {
+            margin-top: 20px;
+            background-color: #6c757d; /* Gray color */
+            border: none;
+            color: white;
+        }
+        .btn-back:hover {
+            background-color: #5a6268; /* Darker gray on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="container">
+        <h1>Learn More About Our Marketplace</h1>
+    </div>
+</div>
+
+<div class="content">
+    <h2>What is the Innovation Marketplace?</h2>
+    <p>The Innovation Marketplace connects organizations facing challenges with innovators who have solutions. By posting your challenge, you can tap into a community of creative thinkers and problem-solvers.</p>
+
+    <div class="show-more-content" id="moreContent">
+        <h3>Benefits of Participation</h3>
+        <ul>
+            <li><strong>Collaboration:</strong> Work with talented innovators to develop effective solutions.</li>
+            <li><strong>Visibility:</strong> Gain exposure for your organization and its challenges.</li>
+            <li><strong>Innovation:</strong> Discover fresh ideas that can drive your projects forward.</li>
+        </ul>
+        <p>Join us today and be a part of this exciting opportunity!</p>
+    </div>
+
+    <button class="btn btn-show-more" id="showMoreBtn">Show More</button>
+    <button class="btn btn-back" onclick="window.location.href='index.html'">Go Back</button> <!-- Link to your landing page -->
+</div>
+
+<footer>
+    <div class="text-center" style="padding: 20px 0; background-color: #333; color: white;">
+        <p>&copy; 2024 Innovation Marketplace. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('showMoreBtn').addEventListener('click', function() {
+        const moreContent = document.getElementById('moreContent');
+        if (moreContent.style.display === 'none' || moreContent.style.display === '') {
+            moreContent.style.display = 'block'; // Show content
+            this.textContent = 'Show Less'; // Change button text
+        } else {
+            moreContent.style.display = 'none'; // Hide content
+            this.textContent = 'Show More'; // Change button text back
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .challenge-details {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .review-form textarea {
+            width: 100%;
+            padding: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Challenge Details</h1>
+<div class="challenge-details" id="challengeDetails"></div>
+
+<!-- Review Form -->
+<div class="review-form" id="reviewForm">
+    <h3>Submit Your Review</h3>
+    <textarea id="reviewText" placeholder="Write your review here..." rows="5"></textarea>
+    <button onclick="submitReview()">Submit Review</button>
+</div>
+
+<script>
+    // Get the challenge ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const challengeId = urlParams.get('challengeId');
+
+    // Fetch userId from localStorage
+    const userId = localStorage.getItem('userId'); // Assumes userId is stored in localStorage
+
+    let companyId = ''; // To store the company ID
+
+    // Fetch the challenge details
+    window.onload = async function fetchChallengeDetails() {
+        const challengeDetailsDiv = document.getElementById('challengeDetails');
+        try {
+            const response = await fetch(`/Challenges/${challengeId}`);
+            if (response.ok) {
+                const challenge = await response.json();
+                challengeDetailsDiv.innerHTML = `
+                    <h2>Company ID: ${challenge.companyId}</h2>
+                    <p><strong>Description:</strong> ${challenge.description}</p>
+                `;
+                companyId = challenge.companyId; // Store company ID
+            } else {
+                challengeDetailsDiv.innerHTML = '<p>Challenge not found.</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching challenge details:', error);
+            challengeDetailsDiv.innerHTML = '<p>Error fetching challenge details.</p>';
+        }
+    };
+
+    // Submit a review for the challenge
+    async function submitReview() {
+        const reviewText = document.getElementById('reviewText').value;
+        if (!reviewText) {
+            alert('Please enter a review.');
+            return;
+        }
+
+        const submission = {
+            userId: userId,             // Use userId from localStorage
+            review: reviewText,         // Review text
+            companyId: companyId,       // Include company ID
+            challengeId: challengeId     // Include challenge ID
+        };
+
+        try {
+            const response = await fetch('/Submissions/addSubmission', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(submission)
+            });
+
+            if (response.ok) {
+                alert('Review submitted successfully!');
+                document.getElementById('reviewText').value = ''; // Clear the review form
+            } else {
+                alert('Error submitting review.');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            alert('Error submitting review.');
+        }
+    }
+</script>
+
+</body>
+</html>
