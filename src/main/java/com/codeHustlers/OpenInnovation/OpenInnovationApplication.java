@@ -10,4 +10,5 @@ public class OpenInnovationApplication {
 		SpringApplication.run(OpenInnovationApplication.class, args);
 	}
 
+
 }
