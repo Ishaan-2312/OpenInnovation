@@ -37,6 +37,14 @@
             padding: 15px;
             border-radius: 5px;
             margin-bottom: 10px;
+            position: relative;
+        }
+        .submission-btn {
+            margin-top: 10px;
+            background-color: #28a745;
+        }
+        .submission-btn:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -102,6 +110,7 @@
                     challengeDiv.className = 'challenge-item';
                     challengeDiv.innerHTML = `
                         <p>${challenge.description}</p>
+                        <button class="submission-btn" onclick="viewSubmissions(${challenge.id})">View All Submissions</button>
                     `;
                     challengeListDiv.appendChild(challengeDiv);
                 });
@@ -111,6 +120,26 @@
         } catch (error) {
             console.error('Error fetching challenges:', error);
             challengeListDiv.innerHTML = '<p>Error fetching challenges.</p>';
+        }
+    }
+
+    // View all submissions for a challenge
+    async function viewSubmissions(challengeId) {
+        try {
+            const response = await fetch(`/Submissions/getSubmissions/${challengeId}`);
+            if (response.ok) {
+                const submissions = await response.json();
+                let submissionsList = <h3>Submissions for Challenge ID: ${challengeId}</h3>;
+                submissions.forEach(submission => {
+                    submissionsList += <p>${submission.content}</p>;
+                });
+                alert(submissionsList); // Display submissions in an alert (or customize to your needs)
+            } else {
+                alert('No submissions found for this challenge.');
+            }
+        } catch (error) {
+            console.error('Error fetching submissions:', error);
+            alert('Error fetching submissions.');
         }
     }
 </script>
