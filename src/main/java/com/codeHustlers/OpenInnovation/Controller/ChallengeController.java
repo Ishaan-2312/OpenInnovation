@@ -37,6 +37,7 @@ public class ChallengeController {
 
     }
     @GetMapping("/getChallenges/{companyId}")
+
     public ResponseEntity<List<Challenge>> getAllChallenges(@PathVariable String companyId){
         Optional<Company> company=companyService.getCompanyById(companyId);
         List<Challenge> challenges=challengeService.getChallengesByCompanyId(companyId);

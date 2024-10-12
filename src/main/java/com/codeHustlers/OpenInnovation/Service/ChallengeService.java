@@ -5,6 +5,7 @@ import com.codeHustlers.OpenInnovation.Model.Company;
 import com.codeHustlers.OpenInnovation.Repository.ChallengeRepository;
 import com.codeHustlers.OpenInnovation.Repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class ChallengeService {
         List<Challenge> challenges=challengeRepository.findAllByCompanyId(companyId);
         return challenges;
     }
-
+//@Cacheable(value = "Challenge")
     public List<Challenge> getAllChallenges() {
         List<Challenge> challenges=challengeRepository.findAll();
         return challenges;

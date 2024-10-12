@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge Submissions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .submission-list {
+            margin-top: 20px;
+        }
+        .submission-item {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .submission-item h3 {
+            margin-bottom: 10px;
+        }
+        .submission-item p {
+            margin: 5px 0;
+        }
+        .back-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<button class="back-button" onclick="window.history.back()">Back to Challenges</button>
+
+<h1>Submissions for Challenge ID: <span id="challengeIdDisplay"></span></h1>
+
+<div class="submission-list" id="submissionList"></div>
+
+<script>
+    // Function to get query parameters from the URL
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Fetch and display submissions for the provided challenge ID
+    async function fetchSubmissions(challengeId) {
+        const submissionListDiv = document.getElementById('submissionList');
+        submissionListDiv.innerHTML = ''; // Clear previous results
+
+        try {
+            const response = await fetch(`/Submissions/challenge/${challengeId}`);
+            if (response.ok) {
+                const submissions = await response.json();
+
+                if (submissions.length > 0) {
+                    submissions.forEach(submission => {
+                        const submissionDiv = document.createElement('div');
+                        submissionDiv.className = 'submission-item';
+                        submissionDiv.innerHTML = `
+                            <h3>Submission by User ID: ${submission.userId}</h3>
+                            <p><strong>Company ID:</strong> ${submission.companyId}</p>
+                            <p><strong>Challenge ID:</strong> ${submission.challengeId}</p>
+                            <p><strong>Review:</strong> ${submission.review}</p>
+                        `;
+                        submissionListDiv.appendChild(submissionDiv);
+                    });
+                } else {
+                    submissionListDiv.innerHTML = '<p>No submissions found for this challenge.</p>';
+                }
+            } else {
+                submissionListDiv.innerHTML = '<p>Error fetching submissions.</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching submissions:', error);
+            submissionListDiv.innerHTML = '<p>Error fetching submissions.</p>';
+        }
+    }
+
+    // On page load, fetch the challenge ID from the query parameter and display submissions
+    window.onload = function() {
+        const challengeId = getQueryParam('challengeId');
+        if (challengeId) {
+            document.getElementById('challengeIdDisplay').textContent = challengeId;
+            fetchSubmissions(challengeId);
+        } else {
+            document.getElementById('submissionList').innerHTML = '<p>No Challenge ID provided.</p>';
+        }
+    };
+</script>
+
+</body>
+</html>
